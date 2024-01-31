@@ -7,4 +7,8 @@
     <RootNamespace>sistema_prestamo_EJ</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\co\" />
+  </ItemGroup>
+
 </Project>
