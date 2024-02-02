@@ -1,0 +1,69 @@
+@page "/Prestamo"
+@using sistema_prestamo_EJ.Data
+@inject WeatherForecastService ForecastService
+@using sistema_prestamo_EJ.Pages.Models
+@using System.ComponentModel.DataAnnotations
+
+<link rel="stylesheet" href="css/styles.css" />
+
+<h3 class="text-center">Solicitud de Préstamo</h3>
+
+<div class="container mt-4">
+    <EditForm Model="@loanApplication" OnValidSubmit="SubmitLoanApplication">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <InputText @bind-Value="loanApplication.Nombre" class="form-control" id="nombre" />
+            <ValidationMessage For="@(() => loanApplication.Nombre)" />
+        </div>
+
+        <div class="form-group">
+            <label for="monto" class="form-label">Monto Solicitado:</label>
+            <InputNumber @bind-Value="loanApplication.MontoSolicitado" class="form-control" id="monto" />
+            <ValidationMessage For="@(() => loanApplication.MontoSolicitado)" />
+        </div>
+
+        <div class="form-group">
+            <label for="plazo" class="form-label">Plazo en Meses:</label>
+            <InputNumber @bind-Value="loanApplication.PlazoMeses" class="form-control" id="plazo" />
+            <ValidationMessage For="@(() => loanApplication.PlazoMeses)" />
+        </div>
+
+        <button type="submit" class="btn btn-submit">Enviar Solicitud</button>
+        @if (loanApplicationSubmitted)
+        {
+            <p class="text-success mt-2">¡Solicitud de préstamo enviada con éxito!</p>
+        }
+    </EditForm>
+</div>
+
+@code {
+    private LoanApplicationModel loanApplication = new LoanApplicationModel();
+    private bool loanApplicationSubmitted = false;
+
+    private void SubmitLoanApplication()
+    {
+        // Lógica para procesar la solicitud
+        // Actualmente, solo imprimirá un mensaje en la consola
+        Console.WriteLine("¡Solicitud de préstamo enviada con éxito!");
+
+        // Mostrar mensaje de éxito
+        loanApplicationSubmitted = true;
+    }
+
+    public class LoanApplicationModel
+    {
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
+        public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "El monto solicitado es obligatorio.")]
+        [Range(1000, double.MaxValue, ErrorMessage = "El monto debe ser al menos 1000.")]
+        public decimal MontoSolicitado { get; set; }
+
+        [Required(ErrorMessage = "El plazo en meses es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El plazo debe ser al menos 1 mes.")]
+        public int PlazoMeses { get; set; }
+    }
+}
